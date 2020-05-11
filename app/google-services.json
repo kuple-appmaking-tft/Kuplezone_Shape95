@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "254439821473",
+    "firebase_url": "https://kuplemy-fab09.firebaseio.com",
+    "project_id": "kuplemy-fab09",
+    "storage_bucket": "kuplemy-fab09.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254439821473:android:19f15afb2bf6c448d0a0e0",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "254439821473-ggs16kj5eh2ok477nvjh98vk0r7ced5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlxL_6VLUVrjfY-59x1FQIMhDX-UAeQt4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "254439821473-ggs16kj5eh2ok477nvjh98vk0r7ced5b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
