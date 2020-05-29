@@ -13,22 +13,27 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //define view objects
+    // Views
     EditText editTextEmail;
     EditText editTextPassword;
+    EditText editTextPhone;
+    EditText editTextNickname;
     Button buttonSignup;
 
     TextView textviewSingin;
     TextView textviewMessage;
     ProgressDialog progressDialog;
-    //define firebase object
+
+    // Firebase 정의
     FirebaseAuth firebaseAuth;
 
     @Override
@@ -48,7 +53,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         //initializing views
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        textviewSingin= (TextView) findViewById(R.id.textViewSignin);
+        editTextPhone = (EditText) findViewById(R.id.editTextPhone);
+        editTextNickname  = (EditText) findViewById(R.id.editTextNickname);
+        textviewSingin= (TextView) findViewById(R.id.textViewSignin);;
         textviewMessage = (TextView) findViewById(R.id.textviewMessage);
         buttonSignup = (Button) findViewById(R.id.buttonSignup);
         progressDialog = new ProgressDialog(this);
@@ -63,6 +70,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         //사용자가 입력하는 email, password를 가져온다.
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+        String phoneNumber = editTextPhone.getText().toString().trim();
+        String nickname = editTextNickname.getText().toString().trim();
+
         //email과 password가 비었는지 아닌지를 체크 한다.
         if(TextUtils.isEmpty(email)){
             Toast.makeText(this, "Email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
@@ -70,6 +80,14 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         }
         if(TextUtils.isEmpty(password)){
             Toast.makeText(this, "Password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(phoneNumber)){
+            Toast.makeText(this, "휴대폰 번호를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(nickname)){
+            Toast.makeText(this, "닉네임을 입력해 주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -82,7 +100,17 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        UserModel userModel = new UserModel();
+                        userModel.userEmail = editTextEmail.getText().toString().trim();
+                        userModel.userPassword = editTextPassword.getText().toString().trim();
+                        userModel.phoneNumber = editTextPhone.getText().toString().trim();
+                        userModel.nickname = editTextNickname.getText().toString().trim();
+
+                        String uid = task.getResult().getUser().getUid();
+                        FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel);
+
                         if(task.isSuccessful()){
+
                             finish();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
